@@ -12,7 +12,26 @@
 </head>
 <body>
     <div class="container">
-
+        <div class="app">
+            <div class="header">
+                <div class="title">
+                    <h1>My To-Do List</h1>
+                    <button class="changeTitle"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+            </div>
+            <div class="taskListSection">
+                <h2></h2>
+                <ul class="taskList"> <strong>My Tasks: <string class="taskNumber">0</string></strong>
+                    <li class="task">Practice Coding</li>
+                </ul>
+            </div>
+            <div class="row newTaskSection">
+                <form class="newTask">
+                    <input type="text" class="col-sm-8 form-control" autocomplete="off" placeholder="New Task">
+                    <button type="submit" class="col-sm-2 btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
     </div>
     <script src="src/script.js"></script>
 </body>
