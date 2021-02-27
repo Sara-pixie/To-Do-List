@@ -14,21 +14,20 @@
     <div class="container">
         <div class="app">
             <div class="header">
-                <div class="title">
-                    <h1>My To-Do List</h1>
+                <div class="titleSection">
+                    <h1 class="title" id="title"></h1>
                     <button class="changeTitle"><i class="fas fa-pencil-alt"></i></button>
                 </div>
             </div>
             <div class="taskListSection">
-                <h2></h2>
-                <ul class="taskList"> <strong>My Tasks: <string class="taskNumber">0</string></strong>
-                    <li class="task">Practice Coding</li>
-                </ul>
+                <p><strong>My Tasks: <string id="task-number"></string></strong></p>
+                <ul id="task-list"></ul>
             </div>
             <div class="row newTaskSection">
-                <form class="newTask">
-                    <input type="text" class="col-sm-8 form-control" autocomplete="off" placeholder="New Task">
-                    <button type="submit" class="col-sm-2 btn btn-primary">Create</button>
+                <form>
+                    <input type="text" id="new-task-input" class="col-sm-8 form-control" autocomplete="off" placeholder="New Task">
+                    <button class="col-sm-2 btn btn-danger" id="delete-btn">Delete all</button>
+                    <button class="col-sm-2 btn btn-primary" id="new-task-btn">Create</button>
                 </form>
             </div>
         </div>

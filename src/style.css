@@ -13,7 +13,10 @@ body {
 .header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
-h1 {
+.titleSection {
+  padding: 5px 10px;
+}
+.title {
   display: inline-block;
 }
 .changeTitle {
@@ -28,10 +31,14 @@ h1 {
   color: #fff;
   background: black;
 }
+.taskListSection p {
+  margin-left: 10px;
+}
 .newTaskSection {
   padding: 5px;
 }
 .btn {
   float: right;
   margin-top: 5px;
+  margin-left: 5px;
 }
