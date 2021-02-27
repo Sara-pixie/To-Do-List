@@ -10,7 +10,10 @@ function createNewTask(event){
         let li = document.createElement("li");
         document.querySelector("#task-list").appendChild(li);
         li.innerHTML = newTask;
+        tasks.push(newTask);
+        localStorage.setItem("tasks", tasks);
     }
+    //  ne dela     newTask = "";
     countTasks();
 }
 function deleteTasks(event){
@@ -18,6 +21,7 @@ function deleteTasks(event){
     document.querySelector("#task-list").innerHTML = null;
     countTasks();
 }
+let tasks = [];
 localStorage.setItem("title", "My To-Do List");
 document.querySelector("#title").innerHTML = localStorage.getItem("title");
 document.querySelector("#new-task-btn").addEventListener("click", createNewTask);
