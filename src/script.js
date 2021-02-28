@@ -8,9 +8,9 @@ function countTasks(){
 function createNewTask(content, number){
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check${number}" id="check-${number}"><i class="fas fa-check"></button></i>${number}#:${content}<hr />`;
+    li.innerHTML = `<button class="check check${number}" id="check-${number}"><i class="fas fa-check"></button></i>${number}: ${content}<hr />`;
     let identity = `task-${number}`;
-    li.setAttribute(id, identity);
+    li.setAttribute(`id`, identity);
     li.classList.add(`task${number}`);
 }
 function handleCreate(event){
