@@ -16,19 +16,20 @@
             <div class="header">
                 <div class="titleSection">
                     <h1 class="title" id="title"></h1>
-                    <button class="changeTitle"><i class="fas fa-pencil-alt"></i></button>
+                    <button class="changeTitle" data-bs-toggle="tooltip" container="titleSection" title="Change your list title"><i class="fas fa-pencil-alt"></i></button>
                 </div>
             </div>
             <div class="taskListSection">
                 <p><strong>My Tasks: <string id="task-number"></string></strong></p>
                 <ul id="task-list"></ul>
             </div>
-            <div class="row newTaskSection">
-                <form>
-                    <input type="text" id="new-task-input" class="col-sm-8 form-control" autocomplete="off" placeholder="New Task">
-                    <button class="col-sm-2 btn btn-danger" id="delete-btn">Delete all</button>
-                    <button class="col-sm-2 btn btn-primary" id="new-task-btn">Create</button>
-                </form>
+            <div class="form-control newTaskSection">
+                Create a new task:
+                <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
+                <div class="buttons">
+                    <button class="btn btn-primary" id="new-task-btn">Create New</button>
+                    <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
+                </div>
             </div>
         </div>
     </div>
