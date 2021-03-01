@@ -30,6 +30,10 @@ body {
   position: relative;
   top: -12px;
 }
+.changeTitleInput {
+  background: rgb(255, 229, 114);
+  font-size: 25px;
+}
 .plusBtn {
   display: inline-block;
   border: 1px solid rgba(0, 0, 0, 0.4);
@@ -67,9 +71,20 @@ hr {
   left: -19px;
 }
 .check:hover,
-.checked {
+.checked,
+.confirm:hover {
   background: rgb(10, 201, 10);
   color: #fff;
+}
+.confirm {
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  color: rgba(0, 0, 0, 0.2);
+  float: right;
+  position: relative;
+  right: 5px;
+  top: -39px;
 }
 .newTaskSection {
   padding: 10px 20px;

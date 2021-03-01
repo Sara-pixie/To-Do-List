@@ -18,10 +18,9 @@ function handleCompleted(event) {
 function createNewTask(content, number){
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check check${number}" id="check-${number}"><i class="fas fa-check"></button></i>#${number}) ${content}<hr />`;
+    li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button>#${number}) ${content}<hr />`;
     let identity = `task-${number}`;
     li.setAttribute(`id`, identity);
-    li.classList.add(`task${number}`);
     document.querySelector(`#check-${number}`).addEventListener("click", handleCompleted);
 }
 function handleCreate(event){
@@ -61,9 +60,24 @@ function uncollapseNewTaskSection(event){
     document.querySelector("#plus-btn").removeEventListener("click", uncollapseNewTaskSection);
     document.querySelector("#plus-btn").addEventListener("click", collapseNewTaskSection);
 }
+function changeTitle(event){
+    let newTitle = document.querySelector("#change-title-input").value;
+    title = newTitle;
+    document.querySelector("#title-section").innerHTML =
+    `<h1 class="title" id="title">${title}</h1>
+    <button class="changeTitle" id="change-title-btn" data-bs-toggle="tooltip" container="titleSection" title="Change your list title"><i class="fas fa-pencil-alt"></i></button>`;
+    document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
+}
+function changeTitleForm(event){
+    document.querySelector("#title-section").innerHTML =
+    `<input type="text" class="form-control changeTitleInput" id="change-title-input" autocomplete="off" placeholder="My To-Do List">
+    <button class="confirm" id="confirm-title"><i class="fas fa-check"></i></button>`;
+    document.querySelector("#confirm-title").addEventListener("click", changeTitle);
+}
 let tasks = [];
 let completedTasks = [];
 let title = "My To-Do List";
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
+document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
 countTasks();
