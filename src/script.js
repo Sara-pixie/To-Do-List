@@ -1,24 +1,26 @@
 function countTasks(){
     if (completedTasks.length > 0){
         document.querySelector("#completed-task-number").innerHTML = completedTasks.length;
+        localStorage.setItem("completedTasks", completedTasks.toString());
     } else {document.querySelector("#completed-task-number").innerHTML = 0;}
     if (tasks.length > 0){
         document.querySelector("#task-number").innerHTML = tasks.length;
-        return tasks.length+1;
+        localStorage.setItem("tasks", tasks.toString());
+        return tasks.length;
     } else {document.querySelector("#task-number").innerHTML = 0;}
 }
 function handleCompleted(event) {
     this.classList.add("checked");
     let number = this.id.replace(`check-`,'');
-    let compleatedTask = document.querySelector(`#task-${number}`);
-    completedTasks.push(compleatedTask);
-    compleatedTask.classList.add("completed");
+    let completedTask = document.querySelector(`#task-${number}-content`);
+    completedTasks.push(completedTask.innerHTML);
+    completedTask.classList.add("completed");
     countTasks();
 }
 function createNewTask(content, number){
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button>#${number}) ${content}<hr />`;
+    li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button>#${number}) <string id="task-${number}-content">${content}</string><hr />`;
     let identity = `task-${number}`;
     li.setAttribute(`id`, identity);
     document.querySelector(`#check-${number}`).addEventListener("click", handleCompleted);
@@ -36,7 +38,9 @@ function deleteTasks(event){
     event.preventDefault();
     document.querySelector("#task-list").innerHTML = null;
     tasks.length = 0;
+    localStorage.removeItem("tasks");
     completedTasks.length = 0;
+    localStorage.removeItem("completedTasks");
     countTasks();
 }
 function collapseNewTaskSection(event){
@@ -63,8 +67,12 @@ function uncollapseNewTaskSection(event){
 function changeTitle(event){
     let newTitle = document.querySelector("#change-title-input").value;
     if (newTitle.length > 0){
-        title = newTitle;
-    } else {title = "My To-Do List"}
+        localStorage.setItem("title", `${newTitle}`);
+        title = localStorage.getItem("title");
+    } else {
+        localStorage.setItem("title", "My To-Do List");
+        title = localStorage.getItem("title");
+    }
     document.querySelector("#title-section").innerHTML =
     `<h1 class="title" id="title">${title}</h1>
     <button class="changeTitle" id="change-title-btn" data-bs-toggle="tooltip" container="titleSection" title="Change your list title"><i class="fas fa-pencil-alt"></i></button>`;
@@ -76,9 +84,29 @@ function changeTitleForm(event){
     <button class="confirm" id="confirm-title"><i class="fas fa-check"></i></button>`;
     document.querySelector("#confirm-title").addEventListener("click", changeTitle);
 }
+function createStoredTasks(){
+    if (storedTasks.length > 0){
+        tasks = storedTasks;
+        for (let number = 1; number <= tasks.length; number++){
+            let task = tasks[number];
+            createNewTask(task, number);
+        }
+        //if (storedCompletedTasks.length > 0){
+            //let tasksToDo = tasks - storedCompletedTasks;
+            //completedTasks = tasks - tasksToDo;
+            //completedTasks.forEach(function(completedTask){
+                //completedTask.classList.add("completed");
+            //});
+        //}
+    }
+}
 let tasks = [];
 let completedTasks = [];
-let title = "My To-Do List";
+let storedTasks = localStorage.getItem("tasks").replace(`"`, ``).split(",");
+let storedCompletedTasks = localStorage.getItem("completedTasks").replace(`"`, ``).split(",");
+createStoredTasks();
+if (localStorage.getItem("title").value = 0){localStorage.setItem("title", "My To-Do List");}
+let title = localStorage.getItem("title");
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
