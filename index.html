@@ -23,13 +23,9 @@
                 <p><strong>My Tasks: <string class="completedTaskN" id="completed-task-number"></string>/<string class="taskN" id="task-number"></string></strong></p>
                 <ul id="task-list"></ul>
             </div>
-            <div class="form-control newTaskSection">
-                Create a new task:
-                <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
-                <div class="buttons">
-                    <button class="btn btn-primary" id="new-task-btn">Create New</button>
-                    <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
-                </div>
+            <div class="form-control newTaskSection" id="new-task-section">
+                <button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
+                Create a new task
             </div>
         </div>
     </div>

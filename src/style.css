@@ -30,7 +30,15 @@ body {
   position: relative;
   top: -12px;
 }
-.changeTitle:hover {
+.plusBtn {
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 50px;
+  color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 5px;
+}
+.changeTitle:hover,
+.plusBtn:hover {
   color: #fff;
   background: black;
 }
