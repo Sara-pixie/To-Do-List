@@ -62,7 +62,9 @@ function uncollapseNewTaskSection(event){
 }
 function changeTitle(event){
     let newTitle = document.querySelector("#change-title-input").value;
-    title = newTitle;
+    if (newTitle.length > 0){
+        title = newTitle;
+    } else {title = "My To-Do List"}
     document.querySelector("#title-section").innerHTML =
     `<h1 class="title" id="title">${title}</h1>
     <button class="changeTitle" id="change-title-btn" data-bs-toggle="tooltip" container="titleSection" title="Change your list title"><i class="fas fa-pencil-alt"></i></button>`;
