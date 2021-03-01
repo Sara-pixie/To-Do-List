@@ -34,8 +34,21 @@ body {
   color: #fff;
   background: black;
 }
+.taskN {
+  color: blue;
+}
+.completedTaskN {
+  color: rgb(14, 194, 14);
+}
+.completed {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.4);
+}
 li {
   padding: 0 10px 0 0;
+}
+hr {
+  margin-top: 0;
 }
 .check {
   display: inline-block;
@@ -45,7 +58,8 @@ li {
   position: relative;
   left: -19px;
 }
-.check:hover {
+.check:hover,
+.checked {
   background: rgb(10, 201, 10);
   color: #fff;
 }
