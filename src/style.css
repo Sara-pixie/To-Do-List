@@ -90,9 +90,10 @@ hr {
   padding: 10px 20px;
   background: rgb(255, 229, 114);
 }
-.buttons {
+.btn-primary {
   margin: 5px 0;
 }
-.btn {
-  box-shadow: 2px 2px 2px black;
+.btn-danger {
+  margin-bottom: 5px;
+  float: right;
 }

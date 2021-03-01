@@ -4,7 +4,7 @@ function countTasks(){
     } else {document.querySelector("#completed-task-number").innerHTML = 0;}
     if (tasks.length > 0){
         document.querySelector("#task-number").innerHTML = tasks.length;
-        return tasks.length+1;
+        return tasks.length;
     } else {document.querySelector("#task-number").innerHTML = 0;}
 }
 function handleCompleted(event) {
@@ -42,7 +42,9 @@ function deleteTasks(event){
 function collapseNewTaskSection(event){
     document.querySelector("#new-task-section").innerHTML =
     `<button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
-    Create a new task`;
+    Create a new task
+    <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>`;
+    document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
     document.querySelector("#plus-btn").removeEventListener("click", collapseNewTaskSection);
     document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 }
@@ -50,13 +52,11 @@ function uncollapseNewTaskSection(event){
     document.querySelector("#new-task-section").innerHTML =
     `<button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
     Create a new task
+    <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
     <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
-    <div class="buttons">
-        <button class="btn btn-primary" id="new-task-btn">Create New</button>
-        <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
-    </div>`;
-    document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
+    <button class="btn btn-primary" id="new-task-btn">Create New</button>`;
     document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
+    document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
     document.querySelector("#plus-btn").removeEventListener("click", uncollapseNewTaskSection);
     document.querySelector("#plus-btn").addEventListener("click", collapseNewTaskSection);
 }
@@ -81,5 +81,6 @@ let completedTasks = [];
 let title = "My To-Do List";
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
+document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
 document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
 countTasks();
