@@ -1,5 +1,5 @@
 # To-Do-List
-A simple To-Do List
+A simple To-Do List with local storage
 
 ![alt text](https://github.com/Sara-pixie/To-Do-List/blob/main/To-Do-List_tumbnail.png?raw=true)
 # Technology
