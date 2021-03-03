@@ -89,7 +89,7 @@ function createStoredTasks(){
     if (storedTasks){
         tasks = storedTasks;
         for (let number = 0; number <= tasks.length-1; number++){
-            let task = tasks[number];
+            let task = tasks[number].trim();
             createNewTask(task, number+1);
         }
         if (storedCompletedTasks){
