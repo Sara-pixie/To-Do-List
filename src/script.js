@@ -56,9 +56,9 @@ function uncollapseNewTaskSection(event){
     document.querySelector("#new-task-section").innerHTML =
     `<button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
     Create a new task
-    To create multiple tasks at once seperate them with commas, click "Create new" button and refresh your page.<br />(This actually wasn't done on purpose.)<br />
     <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
     <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
+    To create multiple tasks at once seperate them with commas, click "Create new" button and refresh your page.<br />(This actually wasn't done on purpose.)<br />
     <button class="btn btn-primary" id="new-task-btn">Create New</button>`;
     document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
     document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
