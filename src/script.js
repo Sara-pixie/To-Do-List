@@ -110,8 +110,9 @@ let storedTasks = localStorage.getItem("tasks");
 if (storedTasks){storedTasks = storedTasks.split(",");}
 let storedCompletedTasks = localStorage.getItem("completedTasks");
 if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",");}
-if (localStorage.getItem("title").value = 0){localStorage.setItem("title", "My To-Do List");}
-let title = localStorage.getItem("title");
+let storedTitle = localStorage.getItem("title");
+if (storedTitle === false){localStorage.setItem("title", "My To-Do List");}
+let title = storedTitle;
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
