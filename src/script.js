@@ -13,14 +13,14 @@ function handleCompleted(event) {
     this.classList.add("checked");
     let number = this.id.replace(`check-`,'');
     let completedTask = document.querySelector(`#task-${number}-content`);
-    completedTasks.push(completedTask.innerHTML);
+    completedTasks.push(`${number}`);
     completedTask.classList.add("completed");
     countTasks();
 }
 function createNewTask(content, number){
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button>#${number}) <string id="task-${number}-content">${content}</string><hr />`;
+    li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button><string id="task-${number}-content">${content}</string><hr />`;
     let identity = `task-${number}`;
     li.setAttribute(`id`, identity);
     document.querySelector(`#check-${number}`).addEventListener("click", handleCompleted);
@@ -29,7 +29,7 @@ function handleCreate(event){
     event.preventDefault();
     let newTask = document.querySelector("#new-task-input").value;
     if (newTask.length >= 1){
-        tasks.push(newTask);
+        tasks.push(`${newTask}`);
         let taskNumber = countTasks();
         createNewTask(newTask, taskNumber);
     }
@@ -55,6 +55,7 @@ function uncollapseNewTaskSection(event){
     `<button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
     Create a new task
     <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
+    To create multiple tasks at once seperate them with commas, click "Create new" button and refresh your page.<br />(This actually wasn't done on purpose.)
     <div class="buttons">
         <button class="btn btn-primary" id="new-task-btn">Create New</button>
         <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
@@ -85,29 +86,34 @@ function changeTitleForm(event){
     document.querySelector("#confirm-title").addEventListener("click", changeTitle);
 }
 function createStoredTasks(){
-    if (storedTasks.length > 0){
+    if (storedTasks){
         tasks = storedTasks;
-        for (let number = 1; number <= tasks.length; number++){
+        for (let number = 0; number <= tasks.length-1; number++){
             let task = tasks[number];
-            createNewTask(task, number);
+            createNewTask(task, number+1);
         }
-        //if (storedCompletedTasks.length > 0){
-            //let tasksToDo = tasks - storedCompletedTasks;
-            //completedTasks = tasks - tasksToDo;
-            //completedTasks.forEach(function(completedTask){
-                //completedTask.classList.add("completed");
-            //});
-        //}
+        if (storedCompletedTasks){
+            completedTasks = storedCompletedTasks;
+            completedTasks.forEach(function(completedTask){
+                let idNumber = completedTask;
+                let check = document.querySelector(`#check-${idNumber}`);
+                let task = document.querySelector(`#task-${idNumber}-content`);
+                check.classList.add("checked");
+                task.classList.add("completed");
+            });
+        }
     }
 }
 let tasks = [];
 let completedTasks = [];
-let storedTasks = localStorage.getItem("tasks").replace(`"`, ``).split(",");
-let storedCompletedTasks = localStorage.getItem("completedTasks").replace(`"`, ``).split(",");
-createStoredTasks();
+let storedTasks = localStorage.getItem("tasks");
+if (storedTasks){storedTasks = storedTasks.split(",");}
+let storedCompletedTasks = localStorage.getItem("completedTasks");
+if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",");}
 if (localStorage.getItem("title").value = 0){localStorage.setItem("title", "My To-Do List");}
 let title = localStorage.getItem("title");
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
+createStoredTasks();
 countTasks();
