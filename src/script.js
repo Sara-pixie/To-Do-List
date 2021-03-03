@@ -104,6 +104,7 @@ function createStoredTasks(){
         }
     }
 }
+let title = null;
 let tasks = [];
 let completedTasks = [];
 let storedTasks = localStorage.getItem("tasks");
@@ -111,8 +112,9 @@ if (storedTasks){storedTasks = storedTasks.split(",");}
 let storedCompletedTasks = localStorage.getItem("completedTasks");
 if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",");}
 let storedTitle = localStorage.getItem("title");
-if (storedTitle === false){localStorage.setItem("title", "My To-Do List");}
-let title = storedTitle;
+if (storedTitle){
+    title = storedTitle;
+} else {localStorage.setItem("title", "My To-Do List");}
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
