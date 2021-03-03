@@ -27,7 +27,7 @@ function createNewTask(content, number){
 }
 function handleCreate(event){
     event.preventDefault();
-    let newTask = document.querySelector("#new-task-input").value;
+    let newTask = document.querySelector("#new-task-input").value.trim();
     if (newTask.length >= 1){
         tasks.push(`${newTask}`);
         let taskNumber = countTasks();
