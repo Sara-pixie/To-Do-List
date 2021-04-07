@@ -15,6 +15,7 @@ function handleCompleted(event) {
     let completedTask = document.querySelector(`#task-${number}-content`);
     completedTasks.push(`${number}`);
     completedTask.classList.add("completed");
+    this.removeEventListener("click", handleCompleted);
     countTasks();
 }
 function createNewTask(content, number){
@@ -28,7 +29,7 @@ function createNewTask(content, number){
 function handleCreate(event){
     event.preventDefault();
     let newTask = document.querySelector("#new-task-input").value.trim();
-    if (newTask.length >= 1){
+    if (newTask.length >= 1 && newTask !== ","){
         tasks.push(`${newTask}`);
         let taskNumber = countTasks();
         createNewTask(newTask, taskNumber);
@@ -90,7 +91,12 @@ function createStoredTasks(){
         tasks = storedTasks;
         for (let number = 0; number <= tasks.length-1; number++){
             let task = tasks[number].trim();
-            createNewTask(task, number+1);
+            if (task === ""){
+                tasks.splice(number);
+            }
+            if(task.length > 0) {
+                createNewTask(task, number+1);
+            }
         }
         if (storedCompletedTasks){
             completedTasks = storedCompletedTasks;
@@ -100,6 +106,7 @@ function createStoredTasks(){
                 let task = document.querySelector(`#task-${idNumber}-content`);
                 check.classList.add("checked");
                 task.classList.add("completed");
+                check.removeEventListener("click", handleCompleted);
             });
         }
     }
