@@ -1,47 +1,71 @@
 function countTasks(){
+    let taskCount = document.querySelector("#task-number");
+    let completedCount = document.querySelector("#completed-task-number");
     if (completedTasks.length > 0){
-        document.querySelector("#completed-task-number").innerHTML = completedTasks.length;
-        localStorage.setItem("completedTasks", completedTasks.toString());
-    } else {document.querySelector("#completed-task-number").innerHTML = 0;}
+        completedCount.innerText = completedTasks.length;
+    } else {completedCount.innerText = 0;}
     if (tasks.length > 0){
-        document.querySelector("#task-number").innerHTML = tasks.length;
-        localStorage.setItem("tasks", tasks.toString());
-        return tasks.length;
-    } else {document.querySelector("#task-number").innerHTML = 0;}
+        taskCount.innerText = tasks.length;
+    } else {taskCount.innerText = 0;}
 }
-function handleCompleted(event) {
-    this.classList.add("checked");
-    let number = this.id.replace(`check-`,'');
-    let completedTask = document.querySelector(`#task-${number}-content`);
-    completedTasks.push(`${number}`);
-    completedTask.classList.add("completed");
-    this.removeEventListener("click", handleCompleted);
+function handleCompleted(taskId) {
+    completedTasks.push(taskId);
+    localStorage.setItem("completedTasks", `${completedTasks}`);
+    document.querySelector(`#task${taskId}-content`).classList.add("completed");
+}
+function handleNotCompleated(taskId){
+    let notCompletedTask = document.querySelector(`#task${taskId}-content`);
+    for (var i = 0; i < completedTasks.length; i++){
+        if (completedTasks[i] === taskId){
+            completedTasks.splice(i, 1);
+            i--;
+        }
+    }
+    localStorage.setItem("completedTasks", completedTasks);
+    notCompletedTask.classList.remove("completed");
+}
+function toggleChecked(event){
+    this.classList.toggle("checked");
+    let taskId = this.id.replace(`check`,'');
+    if(this.classList.contains("checked")){
+        handleCompleted(taskId);
+    } else {
+        handleNotCompleated(taskId);
+    }
     countTasks();
 }
-function createNewTask(content, number){
+function createNewTask(ID){
+    let content = localStorage.getItem(`${ID}`);
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button><string id="task-${number}-content">${content}</string><hr />`;
-    let identity = `task-${number}`;
-    li.setAttribute(`id`, identity);
-    document.querySelector(`#check-${number}`).addEventListener("click", handleCompleted);
+    li.innerHTML = `<button class="check" id="check${ID}"><i class="fas fa-check"></i></button><string id="task${ID}-content">${content}</string><hr />`;
+    document.querySelector(`#check${ID}`).addEventListener("click", toggleChecked);
+    li.setAttribute(`id`, ID);
 }
 function handleCreate(event){
     event.preventDefault();
     let newTask = document.querySelector("#new-task-input").value.trim();
     if (newTask.length >= 1 && newTask !== ","){
-        tasks.push(`${newTask}`);
-        let taskNumber = countTasks();
-        createNewTask(newTask, taskNumber);
+        // Math.random should be unique because of its seeding algorithm.
+        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+        // after the decimal.
+        var ID = '_' + Math.random().toString(36).substr(2, 9);
+        //Save task and id to local storage
+        localStorage.setItem(`${ID}`, `${newTask}`);
+        tasks.push(`${ID}`);
+        localStorage.setItem("tasks", tasks);
+        createNewTask(ID);
     }
+    countTasks();
 }
 function deleteTasks(event){
     event.preventDefault();
+    let title = localStorage.getItem("title");
     document.querySelector("#task-list").innerHTML = null;
-    tasks.length = 0;
-    localStorage.removeItem("tasks");
-    completedTasks.length = 0;
-    localStorage.removeItem("completedTasks");
+    localStorage.clear();
+    tasks = [];
+    completedTasks = [];
+    localStorage.setItem("title", title);
     countTasks();
 }
 function collapseNewTaskSection(event){
@@ -59,7 +83,6 @@ function uncollapseNewTaskSection(event){
     Create a new task
     <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
     <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
-    To create multiple tasks at once seperate them with commas, click "Create new" button and refresh your page.<br />(This actually wasn't done on purpose.)<br />
     <button class="btn btn-primary" id="new-task-btn">Create New</button>`;
     document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
     document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
@@ -95,18 +118,17 @@ function createStoredTasks(){
                 tasks.splice(number);
             }
             if(task.length > 0) {
-                createNewTask(task, number+1);
+                createNewTask(task);
             }
         }
         if (storedCompletedTasks){
             completedTasks = storedCompletedTasks;
             completedTasks.forEach(function(completedTask){
-                let idNumber = completedTask;
-                let check = document.querySelector(`#check-${idNumber}`);
-                let task = document.querySelector(`#task-${idNumber}-content`);
+                let id = completedTask;
+                let check = document.querySelector(`#check${id}`);
+                let task = document.querySelector(`#task${id}-content`);
                 check.classList.add("checked");
                 task.classList.add("completed");
-                check.removeEventListener("click", handleCompleted);
             });
         }
     }
@@ -121,7 +143,10 @@ if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",")
 let storedTitle = localStorage.getItem("title");
 if (storedTitle){
     title = storedTitle;
-} else {localStorage.setItem("title", "My To-Do List");}
+} else {
+    localStorage.setItem("title", "My To-Do List");
+    title = storedTitle;
+}
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
