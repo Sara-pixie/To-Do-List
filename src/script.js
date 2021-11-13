@@ -9,13 +9,29 @@ function countTasks(){
         return tasks.length;
     } else {document.querySelector("#task-number").innerHTML = 0;}
 }
-function handleCompleted(event) {
-    this.classList.add("checked");
-    let number = this.id.replace(`check-`,'');
+function handleCompleted(number) {
     let completedTask = document.querySelector(`#task-${number}-content`);
+    console.log("Before: ", completedTasks);
     completedTasks.push(`${number}`);
+    console.log("After: ", completedTasks);
     completedTask.classList.add("completed");
-    this.removeEventListener("click", handleCompleted);
+}
+function handleNotCompleated(number){
+    let notCompletedTask = document.querySelector(`#task-${number}-content`);
+    let index = completedTasks.indexOf(number);
+    console.log("Before: ", completedTasks);
+    completedTasks.splice(index);
+    console.log("After: ", completedTasks);
+    notCompletedTask.classList.remove("completed");
+}
+function toggleChecked(event){
+    this.classList.toggle("checked");
+    let number = this.id.replace(`check-`,'');
+    if(this.classList.contains("checked")){
+        handleCompleted(number);
+    } else {
+        handleNotCompleated(number);
+    }
     countTasks();
 }
 function createNewTask(content, number){
@@ -24,7 +40,7 @@ function createNewTask(content, number){
     li.innerHTML = `<button class="check" id="check-${number}"><i class="fas fa-check"></i></button><string id="task-${number}-content">${content}</string><hr />`;
     let identity = `task-${number}`;
     li.setAttribute(`id`, identity);
-    document.querySelector(`#check-${number}`).addEventListener("click", handleCompleted);
+    document.querySelector(`#check-${number}`).addEventListener("click", toggleChecked);
 }
 function handleCreate(event){
     event.preventDefault();
@@ -121,7 +137,10 @@ if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",")
 let storedTitle = localStorage.getItem("title");
 if (storedTitle){
     title = storedTitle;
-} else {localStorage.setItem("title", "My To-Do List");}
+} else {
+    localStorage.setItem("title", "My To-Do List");
+    title = storedTitle;
+}
 document.querySelector("#title").innerHTML = title;
 document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
 document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
