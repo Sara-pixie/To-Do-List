@@ -40,6 +40,13 @@ body {
   color: rgba(0, 0, 0, 0.4);
   margin-bottom: 5px;
 }
+.rotate {
+  transform: rotate(45deg);
+  transition: 200ms linear;
+}
+.hidden {
+  display: none;
+}
 .changeTitle:hover,
 .plusBtn:hover {
   color: #fff;

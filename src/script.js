@@ -68,26 +68,14 @@ function deleteTasks(event){
     localStorage.setItem("title", title);
     countTasks();
 }
-function collapseNewTaskSection(event){
-    document.querySelector("#new-task-section").innerHTML =
-    `<button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
-    Create a new task
-    <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>`;
-    document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
-    document.querySelector("#plus-btn").removeEventListener("click", collapseNewTaskSection);
-    document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
-}
-function uncollapseNewTaskSection(event){
-    document.querySelector("#new-task-section").innerHTML =
-    `<button class="plusBtn" id="plus-btn"><i class="fas fa-plus"></i></button>
-    Create a new task
-    <button class="btn btn-danger" id="delete-btn" data-bs-toggle="tooltip" container="newTaskSection" title="This will delete ALL created tasks!">Delete All</button>
-    <input type="text" id="new-task-input" class="form-control" autocomplete="off" placeholder="New Task">
-    <button class="btn btn-primary" id="new-task-btn">Create New</button>`;
-    document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
-    document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
-    document.querySelector("#plus-btn").removeEventListener("click", uncollapseNewTaskSection);
-    document.querySelector("#plus-btn").addEventListener("click", collapseNewTaskSection);
+function toggleNewTaskSection(event){
+    this.classList.toggle("rotate");
+    this.classList.toggle("unRotate");
+    let newTaskBtn = document.querySelector("#new-task-btn");
+    let newTaskInput = document.querySelector("#new-task-input");
+    newTaskBtn.classList.toggle("hidden");
+    newTaskInput.classList.toggle("hidden");
+
 }
 function changeTitle(event){
     let newTitle = document.querySelector("#change-title-input").value;
@@ -148,7 +136,8 @@ if (storedTitle){
     title = storedTitle;
 }
 document.querySelector("#title").innerHTML = title;
-document.querySelector("#plus-btn").addEventListener("click", uncollapseNewTaskSection);
+document.querySelector("#plus-btn").addEventListener("click", toggleNewTaskSection);
+document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
 document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
 document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
 createStoredTasks();
