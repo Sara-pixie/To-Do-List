@@ -8,11 +8,6 @@ function countTasks(){
         taskCount.innerText = tasks.length;
     } else {taskCount.innerText = 0;}
 }
-function handleCompleted(taskId) {
-    completedTasks.push(taskId);
-    localStorage.setItem("completedTasks", `${completedTasks}`);
-    document.querySelector(`#task${taskId}-content`).classList.add("completed");
-}
 function deleteTaskFromArray(array, task){
     for (var i = 0; i < array.length; i++){
         if (array[i] === task){
@@ -20,6 +15,11 @@ function deleteTaskFromArray(array, task){
             i--;
         }
     }
+}
+function handleCompleted(taskId) {
+    completedTasks.push(taskId);
+    localStorage.setItem("completedTasks", `${completedTasks}`);
+    document.querySelector(`#task${taskId}-content`).classList.add("completed");
 }
 function handleNotCompleated(taskId){
     let notCompletedTask = document.querySelector(`#task${taskId}-content`);
@@ -37,12 +37,32 @@ function toggleChecked(event){
     }
     countTasks();
 }
+function handleStarred(taskId){
+    starredTasks.push(taskId);
+    localStorage.setItem("starredTasks", `${starredTasks}`);
+    document.querySelector(`#task${taskId}-content`).classList.add("starredTask");
+}
+function handleNotStarred(taskId){
+    deleteTaskFromArray(starredTasks, taskId);
+    localStorage.setItem("starredTasks", starredTasks);
+    document.querySelector(`#task${taskId}-content`).classList.remove("starredTask");
+}
+function toggleStarred(event){
+    this.classList.toggle("starred");
+    let taskId = this.id.replace(`star`,'');
+    if(this.classList.contains("starred")){
+        handleStarred(taskId);
+    } else {
+        handleNotStarred(taskId);
+    }
+}
 function createNewTask(ID){
     let content = localStorage.getItem(`${ID}`);
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check" id="check${ID}"><i class="fas fa-check"></i></button><string id="task${ID}-content">${content}</string><button class="trash" id="trash${ID}"><i class="fas fa-trash-alt"></i></button><hr />`;
+    li.innerHTML = `<button class="check" id="check${ID}"><i class="fas fa-check"></i></button><string id="task${ID}-content">${content}</string><button class="trash" id="trash${ID}"><i class="fas fa-trash-alt"></i></button><button class="star" id="star${ID}"><i class="fas fa-star"></i></button><hr />`;
     document.querySelector(`#check${ID}`).addEventListener("click", toggleChecked);
+    document.querySelector(`#star${ID}`).addEventListener("click", toggleStarred);
     document.querySelector(`#trash${ID}`).addEventListener("click", deleteThisTask);
     li.setAttribute(`id`, ID);
 }
@@ -148,15 +168,20 @@ function createStoredTasks(){
                 task.classList.add("completed");
             });
         }
+        if(storedStarredTasks){
+            starredTasks = storedStarredTasks;
+            starredTasks.forEach(function(starredTask){
+                let id = starredTask;
+                let star = document.querySelector(`#star${id}`);
+                let task = document.querySelector(`#task${id}-content`);
+                star.classList.add("starred");
+                task.classList.add("starredTask");
+            });
+        }
     }
 }
+//title
 let title = null;
-let tasks = [];
-let completedTasks = [];
-let storedTasks = localStorage.getItem("tasks");
-if (storedTasks){storedTasks = storedTasks.split(",");}
-let storedCompletedTasks = localStorage.getItem("completedTasks");
-if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",");}
 let storedTitle = localStorage.getItem("title");
 if (storedTitle){
     title = storedTitle;
@@ -165,9 +190,23 @@ if (storedTitle){
     title = storedTitle;
 }
 document.querySelector("#title").innerHTML = title;
+//tasks
+let tasks = [];
+let storedTasks = localStorage.getItem("tasks");
+if (storedTasks){storedTasks = storedTasks.split(",");}
+//compleated tasks
+let completedTasks = [];
+let storedCompletedTasks = localStorage.getItem("completedTasks");
+if (storedCompletedTasks){storedCompletedTasks = storedCompletedTasks.split(",");}
+//starred tasks
+let starredTasks = [];
+let storedStarredTasks = localStorage.getItem("starredTasks");
+if (storedStarredTasks){storedStarredTasks = storedStarredTasks.split(",");}
+//event listeners
 document.querySelector("#plus-btn").addEventListener("click", toggleNewTaskSection);
 document.querySelector("#new-task-btn").addEventListener("click", handleCreate);
 document.querySelector("#delete-btn").addEventListener("click", deleteTasks);
 document.querySelector("#change-title-btn").addEventListener("click", changeTitleForm);
+//run functions
 createStoredTasks();
 countTasks();

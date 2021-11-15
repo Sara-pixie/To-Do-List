@@ -66,6 +66,7 @@ hr {
   margin-top: 0;
 }
 .check,
+.star,
 .trash {
   display: inline-block;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -82,8 +83,18 @@ hr {
   background: rgb(10, 201, 10);
   color: #fff;
 }
+.star,
 .trash {
   float: right;
+  margin-left: 10px;
+}
+.star:hover,
+.starred {
+  background: rgb(0, 0, 0);
+  color: rgb(237, 248, 13);
+}
+.starredTask {
+  font-weight: bold;
 }
 .trash:hover {
   background: rgb(197, 13, 13);
