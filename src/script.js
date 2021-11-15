@@ -69,8 +69,14 @@ function deleteTasks(event){
     countTasks();
 }
 function toggleNewTaskSection(event){
-    this.classList.toggle("rotate");
-    this.classList.toggle("unRotate");
+    let newStyle = "transform: rotate(45deg); transition: 200ms linear;"
+    let origStyle = "transform: rotate(0deg); transition: 200ms linear;"
+    let currentStyle = this.getAttribute("style");
+    if(currentStyle === newStyle){
+        this.setAttribute("style", `${origStyle}`);
+    } else {
+        this.setAttribute("style", `${newStyle}`);
+    }
     let newTaskBtn = document.querySelector("#new-task-btn");
     let newTaskInput = document.querySelector("#new-task-input");
     newTaskBtn.classList.toggle("hidden");
