@@ -65,11 +65,14 @@ li {
 hr {
   margin-top: 0;
 }
-.check {
+.check,
+.trash {
   display: inline-block;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 50px;
   color: rgba(0, 0, 0, 0.2);
+}
+.check {
   position: relative;
   left: -19px;
 }
@@ -77,6 +80,13 @@ hr {
 .checked,
 .confirm:hover {
   background: rgb(10, 201, 10);
+  color: #fff;
+}
+.trash {
+  float: right;
+}
+.trash:hover {
+  background: rgb(197, 13, 13);
   color: #fff;
 }
 .confirm {
