@@ -13,14 +13,17 @@ function handleCompleted(taskId) {
     localStorage.setItem("completedTasks", `${completedTasks}`);
     document.querySelector(`#task${taskId}-content`).classList.add("completed");
 }
-function handleNotCompleated(taskId){
-    let notCompletedTask = document.querySelector(`#task${taskId}-content`);
-    for (var i = 0; i < completedTasks.length; i++){
-        if (completedTasks[i] === taskId){
-            completedTasks.splice(i, 1);
+function deleteTaskFromArray(array, task){
+    for (var i = 0; i < array.length; i++){
+        if (array[i] === task){
+            array.splice(i, 1);
             i--;
         }
     }
+}
+function handleNotCompleated(taskId){
+    let notCompletedTask = document.querySelector(`#task${taskId}-content`);
+    deleteTaskFromArray(completedTasks, taskId);
     localStorage.setItem("completedTasks", completedTasks);
     notCompletedTask.classList.remove("completed");
 }
@@ -38,8 +41,9 @@ function createNewTask(ID){
     let content = localStorage.getItem(`${ID}`);
     let li = document.createElement("li");
     document.querySelector("#task-list").appendChild(li);
-    li.innerHTML = `<button class="check" id="check${ID}"><i class="fas fa-check"></i></button><string id="task${ID}-content">${content}</string><hr />`;
+    li.innerHTML = `<button class="check" id="check${ID}"><i class="fas fa-check"></i></button><string id="task${ID}-content">${content}</string><button class="trash" id="trash${ID}"><i class="fas fa-trash-alt"></i></button><hr />`;
     document.querySelector(`#check${ID}`).addEventListener("click", toggleChecked);
+    document.querySelector(`#trash${ID}`).addEventListener("click", deleteThisTask);
     li.setAttribute(`id`, ID);
 }
 function handleCreate(event){
@@ -56,6 +60,25 @@ function handleCreate(event){
         localStorage.setItem("tasks", tasks);
         createNewTask(ID);
     }
+    countTasks();
+}
+function deleteThisTask(event){
+    event.preventDefault();
+    let taskId = this.id.replace(`trash`,'');
+    //delete task from storage
+    localStorage.removeItem(`${taskId}`);
+    //delete from tasks
+    deleteTaskFromArray(tasks, taskId);
+    localStorage.setItem("tasks", tasks);
+    if(completedTasks.includes(`${taskId}`)){
+        //delete from compleated tasks
+        deleteTaskFromArray(completedTasks, taskId);
+        localStorage.setItem("completedTasks", completedTasks);
+    }
+    //delete li
+    let li = document.querySelector(`#${taskId}`);
+    let ul = document.querySelector("#task-list");
+    ul.removeChild(li);
     countTasks();
 }
 function deleteTasks(event){
